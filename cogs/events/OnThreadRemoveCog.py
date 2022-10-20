@@ -9,7 +9,7 @@ class OnThreadRemoveCog(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_application_command(self, thread: discord.Thread):
+    async def on_thread_remove(self, thread: discord.Thread):
         DiscordUtils.updateActiveUserTimestamp(self.bot, thread.owner)
 
 
