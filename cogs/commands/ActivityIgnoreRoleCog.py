@@ -8,7 +8,7 @@ class ActivityIgnoreRoleCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @slash_command(name='activityIgnoreRole', description='Ignore activity of given role')
+    @slash_command(name='activityignorerole', guild_ids=[839673797066096660], description='Ignore activity of given role')
     @option('role', Role, description='Role to be ignored', required=True)
     async def activityIgnoreRole(self, interaction: Interaction, role: Role):
         if role.id in self.bot.ignoredRoles:
