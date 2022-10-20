@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from datetime import datetime, timezone
+from utils import DiscordUtils
 
 
 class OnMessageCog(commands.Cog):
@@ -10,9 +10,7 @@ class OnMessageCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author:
-            self.bot.activeUsersCache[f'{message.author.id}'] = datetime.now(
-                timezone.utc)
+        DiscordUtils.updateActiveUserTimestamp(self, message.author)
 
 
 def setup(bot):

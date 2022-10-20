@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 
-from datetime import datetime, timezone
+from utils import DiscordUtils
+
 
 class OnThreadRemoveCog(commands.Cog):
     def __init__(self, bot):
@@ -9,9 +10,8 @@ class OnThreadRemoveCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_application_command(self, thread: discord.Thread):
-        if thread.owner:
-            self.bot.activeUsersCache[f'{thread.owner.id}'] = datetime.now(timezone.utc)
-    
+        DiscordUtils.updateActiveUserTimestamp(self, thread.owner)
+
 
 def setup(bot):
     bot.add_cog(OnThreadRemoveCog(bot))

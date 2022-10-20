@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from datetime import datetime, timezone
+from utils import DiscordUtils
 
 
 class OnReactionRemoveCog(commands.Cog):
@@ -10,9 +10,7 @@ class OnReactionRemoveCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction: discord.Reaction, member: discord.Member):
-        if member:
-            self.bot.activeUsersCache[f'{member.id}'] = datetime.now(
-                timezone.utc)
+        DiscordUtils.updateActiveUserTimestamp(self, member)
 
 
 def setup(bot):

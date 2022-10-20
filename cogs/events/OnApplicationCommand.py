@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from datetime import datetime, timezone
+from utils import DiscordUtils
 
 
 class OnApplicationCommandCog(commands.Cog):
@@ -10,9 +10,7 @@ class OnApplicationCommandCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_application_command(self, context: discord.ApplicationContext):
-        if context.author:
-            self.bot.activeUsersCache[f'{context.author.id}'] = datetime.now(
-                timezone.utc)
+        DiscordUtils.updateActiveUserTimestamp(self, context.author)
 
 
 def setup(bot):

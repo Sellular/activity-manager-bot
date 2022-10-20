@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from datetime import datetime, timezone
 
+from utils import DiscordUtils
 
 class OnInteractionCog(commands.Cog):
     def __init__(self, bot):
@@ -10,9 +11,7 @@ class OnInteractionCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_interaction(self, interaction: discord.Interaction):
-        if interaction.user:
-            self.bot.activeUsersCache[f'{interaction.user.id}'] = datetime.now(
-                timezone.utc)
+        DiscordUtils.updateActiveUserTimestamp(self, interaction.user)
 
 
 def setup(bot):
