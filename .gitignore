@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Local config
+config.ini
+
+# Database
+pycord.db
