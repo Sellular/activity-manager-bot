@@ -28,12 +28,11 @@ def getIgnoredRoles():
 
             rows = dbCursor.fetchall()
 
-            if rows:
-                ignored_roles = []
-                for row in rows:
-                    ignored_roles.append(int(row['role_id']))
+            ignored_roles = []
+            for row in rows:
+                ignored_roles.append(int(row['role_id']))
 
-                return ignored_roles
+            return ignored_roles
 
     except Exception as error:
         raise error
