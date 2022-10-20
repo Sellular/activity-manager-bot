@@ -13,4 +13,4 @@ class OnMemberJoinCog(commands.Cog):
         DiscordUtils.updateActiveUserTimestamp(self.bot, member)
 
 def setup(bot):
-    bot.add_cog(OnMessageCog(bot))
+    bot.add_cog(OnMemberJoinCog(bot))
