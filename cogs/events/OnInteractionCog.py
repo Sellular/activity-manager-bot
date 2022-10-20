@@ -11,7 +11,7 @@ class OnInteractionCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_interaction(self, interaction: discord.Interaction):
-        DiscordUtils.updateActiveUserTimestamp(self, interaction.user)
+        DiscordUtils.updateActiveUserTimestamp(self.bot, interaction.user)
 
 
 def setup(bot):

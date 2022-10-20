@@ -10,7 +10,7 @@ class OnApplicationCommandCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_application_command(self, context: discord.ApplicationContext):
-        DiscordUtils.updateActiveUserTimestamp(self, context.author)
+        DiscordUtils.updateActiveUserTimestamp(self.bot, context.author)
 
 
 def setup(bot):

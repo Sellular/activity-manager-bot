@@ -10,7 +10,7 @@ class OnReactionAddCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, member: discord.Member):
-        DiscordUtils.updateActiveUserTimestamp(self, member)
+        DiscordUtils.updateActiveUserTimestamp(self.bot, member)
 
 
 def setup(bot):

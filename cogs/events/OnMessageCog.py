@@ -10,7 +10,7 @@ class OnMessageCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        DiscordUtils.updateActiveUserTimestamp(self, message.author)
+        DiscordUtils.updateActiveUserTimestamp(self.bot, message.author)
 
 
 def setup(bot):

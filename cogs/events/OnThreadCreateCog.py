@@ -10,7 +10,7 @@ class OnThreadCreateCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_thread_create(self, thread: discord.Thread):
-        DiscordUtils.updateActiveUserTimestamp(self, thread.owner)
+        DiscordUtils.updateActiveUserTimestamp(self.bot, thread.owner)
 
 
 def setup(bot):
