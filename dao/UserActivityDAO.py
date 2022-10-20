@@ -13,7 +13,7 @@ __userActivitySelectByMembersSql = """
     WHERE member_id = {0};
 """
 
-__userActivityInsertSql = """
+__userActivityUpsertSql = """
     INSERT INTO user_activity (
         member_id,
         active_timestamp
@@ -24,6 +24,16 @@ __userActivityInsertSql = """
         UPDATE SET 
             active_timestamp = excluded.active_timestamp
     ;
+"""
+
+__userActivityInsertSql = """
+    INSERT OR IGNORE INTO user_activity (
+        member_id,
+        active_timestamp
+    ) VALUES (
+        ?,
+        ?
+    );
 """
 
 __userActivitySetActiveSql = """
@@ -96,10 +106,19 @@ def upsertMany(user_activity_list: list):
 
         with dbConnection:
             dbConnection.executemany(
-                __userActivityInsertSql, user_activity_list)
+                __userActivityUpsertSql, user_activity_list)
     except Exception as error:
         raise error
 
+def insertMany(user_activity_list: list):
+    try:
+        dbConnection = DBUtils.getDBConnection()
+
+        with dbConnection:
+            dbConnection.executemany(
+                __userActivityInsertSql, user_activity_list)
+    except Exception as error:
+        raise error
 
 def userActivitySetActive(memberID: int, activeTimestamp: datetime):
     try:
