@@ -12,20 +12,19 @@ class MyClient(commands.Bot):
         super().__init__(command_prefix=('!'), intents=intents)
 
     async def on_ready(self):
-        SetupUtils.importCogs(self)
         print("Bot running with:")
         print("Username: ", self.user.name)
         print("User ID: ", self.user.id)
         print('-----')
         await SetupUtils.resetViews(self)
-        self.activeUsersCache = {}
-        SetupUtils.importCache(self)
 
 
 try:
     DBUtils.checkTables()
 
     bot = MyClient()
+    SetupUtils.importCache(bot)
+    SetupUtils.importCogs(bot)
     botConfig = GeneralUtils.getConfig('bot')
 
     if not botConfig:
