@@ -7,7 +7,7 @@ class OnGuildJoinCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild):
-
+        
 
 def setup(bot):
     bot.add_cog(OnGuildJoinCog(bot))
