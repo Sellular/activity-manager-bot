@@ -40,7 +40,7 @@ def checkTables():
 
     try:
         dbCursor = dbConnection.cursor()
-        tableCommands = (__userActivityTableSql, __channelMessageTableSql)
+        tableCommands = (__userActivityTableSql, __channelMessageTableSql, _ignoredRoleTableSql)
 
         for command in tableCommands:
             dbCursor.execute(command)
