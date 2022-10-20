@@ -2,20 +2,18 @@ import discord
 from discord.ext import tasks, commands
 
 from dao import UserActivityDAO, IgnoredRoleDAO
-
-from datetime import datetime, timedelta
-
-
 from utils import GeneralUtils
 
+from datetime import datetime, timedelta, timezone
 
-class ActiveUserRefreshTaskCog(commands.Cog):
+
+class ActiveUserRefreshCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.activeUserDump.start()
+        self.activeUserRefresh.start()
 
     def cog_unload(self):
-        self.activeUserDump.cancel()
+        self.activeUserRefresh.cancel()
 
     @tasks.loop(hours=1)
     async def activeUserRefresh(self):
@@ -38,7 +36,7 @@ class ActiveUserRefreshTaskCog(commands.Cog):
             UserActivityDAO.upsertMany(activity_timestamp_ids)
 
             activeActivities = UserActivityDAO.getUserActivityByActive(True)
-            now = datetime.utcnow()
+            now = datetime.now(timezone.utc)
             twoWeeksAgo = now - timedelta(days=14)
             inactive_id_list = []
             for activity in activeActivities:
@@ -62,4 +60,4 @@ class ActiveUserRefreshTaskCog(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(ActiveUserRefreshTaskCog(bot))
+    bot.add_cog(ActiveUserRefreshCog(bot))
