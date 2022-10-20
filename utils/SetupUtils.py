@@ -27,6 +27,7 @@ async def resetViews(bot: commands.Bot):
 
 
 def importCache(bot: commands.Bot):
+    bot.activeUsersCache = {}
     activeUsers = UserActivityDAO.getUserActivityByActive(True)
     for activity in activeUsers:
         bot.activeUsersCache[f'{activity.memberID}'] = activity.activeTimestamp
