@@ -4,12 +4,14 @@ from discord.ext import commands
 from datetime import datetime, timezone
 
 from dao import UserActivityDAO
+from utils import GeneralUtils
+
 
 class MemberImportCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.slash_command(name='memberimport', description='Import missing members into activity database', guild_ids=[839673797066096660])
+    @commands.slash_command(name='memberimport', description='Import missing members into activity database', guild_ids=[int(GeneralUtils.getConfig('guild')['guild_id'])])
     @commands.has_permissions(administrator=True)
     async def memberImport(self, ctx: discord.ApplicationContext):
         activity_timestamp_ids = [
@@ -17,6 +19,7 @@ class MemberImportCog(commands.Cog):
 
         UserActivityDAO.insertMany(activity_timestamp_ids)
         await ctx.response.send_message("Members imported", ephemeral=True)
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(MemberImportCog(bot))
