@@ -24,9 +24,11 @@ async def getChannelMessage(messageCode: str, channel: discord.TextChannel, bot:
     finally:
         return message
 
+
 def updateActiveUserTimestamp(bot: commands.Bot, member: discord.Member):
     if member and not member.bot:
         bot.activeUsersCache[f'{member.id}'] = datetime.now(timezone.utc)
+
 
 async def updateInactiveMessage(bot: commands.Bot):
     try:
