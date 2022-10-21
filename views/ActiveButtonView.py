@@ -15,3 +15,4 @@ class ActiveButtonView(View):
         inactiveRole = discord.utils.get(
             interaction.guild.roles, id=int(inactiveRoleID))
         await interaction.user.remove_roles(inactiveRole)
+        await interaction.response.send_message("You have been made active!", ephemeral=True)
