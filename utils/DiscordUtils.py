@@ -43,8 +43,7 @@ async def updateInactiveMessage(bot: commands.Bot):
         inactiveChannel = discord.utils.get(
             bot.get_all_channels(), id=int(inactiveChannelId))
 
-        inactiveEmbed = discord.Embed(title="\u200b")
-        inactiveEmbed.add_field(name="You're inactive!", value="It appears that you have not been active within our community in the last week." +
+        inactiveEmbed = discord.Embed(title="You're inactive!", description="It appears that you have not been active within our community in the last week." +
                                 "\n\n" +
                                 "If you are seeing this channel, this means you are at risk of being purged from the community. If you would like to avoid this, hit the button below to be marked active again!")
 
