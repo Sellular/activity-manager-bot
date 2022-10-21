@@ -10,6 +10,7 @@ class ActivityIgnoreRoleCog(commands.Cog):
 
     @slash_command(name='activityignorerole', guild_ids=[839673797066096660], description='Ignore activity of given role')
     @option('role', Role, description='Role to be ignored', required=True)
+    @commands.has_permissions(administrator=True)
     async def activityIgnoreRole(self, interaction: Interaction, role: Role):
         if role.id in self.bot.ignoredRoles:
             await interaction.response.send_message("Role is already ignored.", ephemeral=True)

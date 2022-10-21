@@ -10,6 +10,7 @@ class MemberImportCog(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(name='memberimport', description='Import missing members into activity database', guild_ids=[839673797066096660])
+    @commands.has_permissions(administrator=True)
     async def memberImport(self, ctx: discord.ApplicationContext):
         activity_timestamp_ids = [
             (str(member.id), datetime.now(timezone.utc)) for member in ctx.guild.members]
