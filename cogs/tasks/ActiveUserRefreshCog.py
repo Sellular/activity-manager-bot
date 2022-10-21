@@ -36,7 +36,7 @@ class ActiveUserRefreshCog(commands.Cog):
 
         activeActivities = UserActivityDAO.getUserActivityByActive(True)
         now = datetime.now(timezone.utc)
-        twoWeeksAgo = now - timedelta(days=14)
+        twoWeeksAgo = now - timedelta(minutes=1)
         inactive_id_list = []
         for activity in activeActivities:
             if activity.activeTimestamp < twoWeeksAgo:
