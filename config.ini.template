@@ -1,0 +1,8 @@
+[bot]
+ID = 1
+TOKEN = TOKEN
+
+[guild]
+GUILD_ID = 1
+INACTIVE_ROLE_ID = 2
+INACTIVE_CHANNEL_ID = 3
