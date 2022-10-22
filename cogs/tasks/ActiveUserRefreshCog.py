@@ -20,11 +20,15 @@ class ActiveUserRefreshCog(commands.Cog):
         bot = self.bot
         guildConfig = GeneralUtils.getConfig('guild')
         inactiveRoleID = guildConfig['inactive_role_id']
+        inactivePingChannelID = guildConfig['inactive_ping_channel_id']
         guildID = guildConfig['guild_id']
 
         guild = discord.utils.get(bot.guilds, id=int(guildID))
         inactiveRole = discord.utils.get(
             guild.roles, id=int(inactiveRoleID))
+
+        inactivePingChannel = discord.utils.get(
+            guild.channels, id=int(inactivePingChannelID))
 
         ignoredRoles = IgnoredRoleDAO.getIgnoredRoles()
         ignoredMembers = [member.id for member in [mem for mem in [
@@ -45,6 +49,10 @@ class ActiveUserRefreshCog(commands.Cog):
                 if not member.bot and member.id not in ignoredMembers:
                     await member.edit(roles=[])
                     await member.add_roles(inactiveRole)
+
+                    inactivePingMessage = await inactivePingChannel.send(f"<@{member.id}>", ephemeral=True)
+                    await inactivePingMessage.delete()
+                    
                     inactive_id_list.append((activity.memberID,))
                     bot.activeUsersCache.pop(activity.memberID)
 
