@@ -51,7 +51,7 @@ class ActiveUserRefreshCog(commands.Cog):
                         await member.edit(roles=[])
                         await member.add_roles(inactiveRole)
 
-                        inactivePingMessage = await inactivePingChannel.send(f"<@{member.id}>", ephemeral=True)
+                        inactivePingMessage = await inactivePingChannel.send(f"<@{member.id}>")
                         await inactivePingMessage.delete()
 
                         inactive_id_list.append((activity.memberID,))
