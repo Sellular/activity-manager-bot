@@ -15,7 +15,7 @@ class ActiveUserRefreshCog(commands.Cog):
     def cog_unload(self):
         self.activeUserRefresh.cancel()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(hours=1)
     async def activeUserRefresh(self):
         bot = self.bot
         guildConfig = GeneralUtils.getConfig('guild')
@@ -40,7 +40,7 @@ class ActiveUserRefreshCog(commands.Cog):
 
         activeActivities = UserActivityDAO.getUserActivityByActive(True)
         now = datetime.now(timezone.utc)
-        twoWeeksAgo = now - timedelta(minutes=1)
+        twoWeeksAgo = now - timedelta(weeks=2)
         inactive_id_list = []
         for activity in activeActivities:
             if activity.activeTimestamp < twoWeeksAgo:
