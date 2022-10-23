@@ -15,7 +15,7 @@ class ActiveUserRefreshCog(commands.Cog):
     def cog_unload(self):
         self.activeUserRefresh.cancel()
 
-    @tasks.loop(hours=1)
+    @tasks.loop(minutes=1)
     async def activeUserRefresh(self):
         bot = self.bot
         guildConfig = GeneralUtils.getConfig('guild')
@@ -40,25 +40,28 @@ class ActiveUserRefreshCog(commands.Cog):
 
         activeActivities = UserActivityDAO.getUserActivityByActive(True)
         now = datetime.now(timezone.utc)
-        twoWeeksAgo = now - timedelta(weeks=2)
+        twoWeeksAgo = now - timedelta(minutes=1)
         inactive_id_list = []
         for activity in activeActivities:
             if activity.activeTimestamp < twoWeeksAgo:
                 member = discord.utils.get(
                     guild.members, id=int(activity.memberID))
                 if not member.bot and member.id not in ignoredMembers:
-                    await member.edit(roles=[])
-                    await member.add_roles(inactiveRole)
+                    try:
+                        await member.edit(roles=[])
+                        await member.add_roles(inactiveRole)
 
-                    inactivePingMessage = await inactivePingChannel.send(f"<@{member.id}>", ephemeral=True)
-                    await inactivePingMessage.delete()
-                    
-                    inactive_id_list.append((activity.memberID,))
-                    bot.activeUsersCache.pop(activity.memberID)
+                        inactivePingMessage = await inactivePingChannel.send(f"<@{member.id}>", ephemeral=True)
+                        await inactivePingMessage.delete()
+
+                        inactive_id_list.append((activity.memberID,))
+                        bot.activeUsersCache.pop(activity.memberID)
+                    except discord.errors.Forbidden as error:
+                        print(error)
+                        pass
 
         if inactive_id_list:
             UserActivityDAO.userActivitySetManyInactive(inactive_id_list)
-        
 
     @activeUserRefresh.before_loop
     async def before_userdump(self):
