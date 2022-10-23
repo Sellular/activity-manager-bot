@@ -57,7 +57,7 @@ class ActiveUserRefreshCog(commands.Cog):
                         inactive_id_list.append((activity.memberID,))
                         bot.activeUsersCache.pop(activity.memberID)
                     except discord.errors.Forbidden as error:
-                        print(error)
+                        print(f"WARN: User {member.name} id: {member.id} has role higher than bot's highest role. User will not be inactivated.")
                         pass
 
         if inactive_id_list:
