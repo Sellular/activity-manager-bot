@@ -131,6 +131,7 @@ dmypy.json
 # Local config
 config.ini
 .vscode
+.history/
 
 # Database
 pycord.db

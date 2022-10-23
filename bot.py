@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from utils import SetupUtils, GeneralUtils, DBUtils
-
+from cogs.commands import MemberImportCog
 
 class MyClient(commands.Bot):
     def __init__(self):
@@ -17,6 +17,10 @@ class MyClient(commands.Bot):
         print("User ID: ", self.user.id)
         print('-----')
         await SetupUtils.resetViews(self)
+
+        botConfig = GeneralUtils.getConfig('bot')
+        guild = self.get_guild(int(botConfig['GUILD_ID']))
+        await MemberImportCog.MemberImportCog.memberImportFunction(guild)
 
 
 try:

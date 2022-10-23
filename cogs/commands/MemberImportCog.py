@@ -14,11 +14,15 @@ class MemberImportCog(commands.Cog):
     @commands.slash_command(name='memberimport', description='Import missing members into activity database', guild_ids=[int(GeneralUtils.getConfig('guild')['guild_id'])])
     @commands.has_permissions(administrator=True)
     async def memberImport(self, ctx: discord.ApplicationContext):
+        await MemberImportCog.memberImportFunction(ctx.guild)
+        
+        await ctx.response.send_message("Members imported", ephemeral=True)
+
+    async def memberImportFunction(guild):
         activity_timestamp_ids = [
-            (str(member.id), datetime.now(timezone.utc)) for member in ctx.guild.members]
+            (str(member.id), datetime.now(timezone.utc)) for member in guild.members]
 
         UserActivityDAO.insertMany(activity_timestamp_ids)
-        await ctx.response.send_message("Members imported", ephemeral=True)
 
 
 def setup(bot: commands.Bot):
