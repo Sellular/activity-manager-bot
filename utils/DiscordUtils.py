@@ -4,7 +4,7 @@ from discord.ext import commands
 
 from datetime import datetime, timezone
 
-from dao import ChannelMessageDAO
+from dao import ChannelMessageDAO, UserActivityDAO
 from utils import GeneralUtils
 from views.ActiveButtonView import ActiveButtonView
 
@@ -56,3 +56,10 @@ async def updateInactiveMessage(bot: commands.Bot):
             ChannelMessageDAO.insert(inactiveMessage.id, "inactiveMessage")
     except Exception as error:
         print(error)
+
+
+def memberImport(guild: discord.Guild):
+    activity_timestamp_ids = [
+        (str(member.id), datetime.now(timezone.utc)) for member in guild.members]
+
+    UserActivityDAO.insertMany(activity_timestamp_ids)

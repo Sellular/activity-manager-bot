@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from utils import SetupUtils, GeneralUtils, DBUtils
+from utils import SetupUtils, GeneralUtils, DBUtils, DiscordUtils
 
 
 class MyClient(commands.Bot):
@@ -11,12 +11,16 @@ class MyClient(commands.Bot):
         intents.members = True
         super().__init__(command_prefix=('!'), intents=intents)
 
-    async def on_ready(self):
+    async def on_ready(self: commands.Bot):
         print("Bot running with:")
         print("Username: ", self.user.name)
         print("User ID: ", self.user.id)
         print('-----')
         await SetupUtils.resetViews(self)
+
+        guildConfig = GeneralUtils.getConfig('guild')
+        guild = discord.get(self.guilds, int(guildConfig['guild_id']))
+        if guild: DiscordUtils.memberImport(guild)
 
 
 try:
