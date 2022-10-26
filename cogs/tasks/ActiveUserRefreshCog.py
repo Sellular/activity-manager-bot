@@ -1,7 +1,7 @@
 import discord
 from discord.ext import tasks, commands
 
-from dao import UserActivityDAO, IgnoredRoleDAO
+from dao import UserActivityDAO, IgnoredRoleDAO, LeftMemberRoleDAO
 from utils import GeneralUtils
 
 from datetime import datetime, timedelta, timezone
@@ -48,6 +48,12 @@ class ActiveUserRefreshCog(commands.Cog):
                     guild.members, id=int(activity.memberID))
                 if not member.bot and member.id not in ignoredMembers:
                     try:
+                        inactive_role_list = []
+                        for role in member.roles:
+                            inactive_id_list.append(
+                                (str(member.id), str(role.id), str(now)))
+                        LeftMemberRoleDAO.insertMany(inactive_role_list)
+
                         await member.edit(roles=[])
                         await member.add_roles(inactiveRole)
 
