@@ -31,4 +31,4 @@ class ActiveButtonView(View):
                 guild_role = discord.utils.get(guild.roles, id=int(role.roleID))
                 await member.add_roles(guild_role)
 
-        await interaction.followup.send("You have been made active!", ephemeral=True)
+        await interaction.followup.send("Congratulations! You are active again!", ephemeral=True)
