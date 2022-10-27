@@ -19,7 +19,7 @@ class MyClient(commands.Bot):
         await SetupUtils.resetViews(self)
 
         guildConfig = GeneralUtils.getConfig('guild')
-        guild = discord.utils.get(self.guilds, int(guildConfig['guild_id']))
+        guild = discord.utils.get(self.guilds, id=int(guildConfig['guild_id']))
         if guild: DiscordUtils.memberImport(guild)
 
 
