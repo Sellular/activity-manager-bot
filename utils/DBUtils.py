@@ -21,6 +21,14 @@ _ignoredRoleTableSql = """
     );
 """
 
+__leftMemberRoleTableSql = """
+    CREATE TABLE IF NOT EXISTS left_members (
+        member_id   TEXT    NOT NULL,
+        role_id     TEXT    NOT NULL,
+        left_date   TEXT    NOT NULL,
+        PRIMARY KEY(member_id, role_id)
+    );
+"""
 
 def getDBConnection():
     dbConnection = None
@@ -40,7 +48,7 @@ def checkTables():
 
     try:
         dbCursor = dbConnection.cursor()
-        tableCommands = (__userActivityTableSql, __channelMessageTableSql, _ignoredRoleTableSql)
+        tableCommands = (__userActivityTableSql, __channelMessageTableSql, _ignoredRoleTableSql, __leftMemberRoleTableSql)
 
         for command in tableCommands:
             dbCursor.execute(command)
