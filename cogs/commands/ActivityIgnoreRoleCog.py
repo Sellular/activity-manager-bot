@@ -21,6 +21,7 @@ class ActivityIgnoreRoleCog(commands.Cog):
                 if role.id in self.bot.ignoredRoles:
                     await interaction.response.send_message(f"Role {role.name} is already ignored.", ephemeral=True)
                 else:
+                    self.bot.ignoredRoles.append(role.id)
                     IgnoredRoleDAO.insert(role.id)
                     await interaction.response.send_message(f"Role {role.name} has been ignored.", ephemeral=True)
 

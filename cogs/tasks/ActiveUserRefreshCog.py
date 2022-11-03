@@ -30,7 +30,6 @@ class ActiveUserRefreshCog(commands.Cog):
         inactivePingChannel = discord.utils.get(
             guild.channels, id=int(inactivePingChannelID))
 
-        ignoredRoles = IgnoredRoleDAO.getIgnoredRoles()
         ignoredMembers = [member.id for member in [mem for mem in [
             discord.utils.get(guild.roles, id=roleID).members for roleID in ignoredRoles]]]
 

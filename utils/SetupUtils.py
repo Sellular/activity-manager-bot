@@ -2,7 +2,7 @@ import os
 from discord.ext import commands
 
 from utils import DiscordUtils
-from dao import UserActivityDAO
+from dao import UserActivityDAO, IgnoredRoleDAO
 
 
 def importCogs(bot: commands.Bot):
@@ -31,3 +31,4 @@ def importCache(bot: commands.Bot):
     activeUsers = UserActivityDAO.getUserActivityByActive(True)
     for activity in activeUsers:
         bot.activeUsersCache[f'{activity.memberID}'] = activity.activeTimestamp
+    bot.ignoredRoles = IgnoredRoleDAO.getIgnoredRoles()
