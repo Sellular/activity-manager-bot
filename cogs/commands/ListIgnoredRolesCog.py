@@ -15,7 +15,7 @@ class ListIgnoredRolesCog(commands.Cog):
     async def listIgnoredRoles(self, interaction: Interaction):
         ignored_role_ids = IgnoredRoleDAO.getIgnoredRoles()
         ignored_roles = [get(interaction.guild.roles, id=int(ignored_id)) for ignored_id in ignored_role_ids]
-        if not ignored_roles:
+        if ignored_roles:
             roles_string = ', '.join([role.name for role in ignored_roles])
             await interaction.response.send_message(f"Currently ignored roles: {roles_string}", ephemeral=True)
             return
