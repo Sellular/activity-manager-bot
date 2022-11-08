@@ -30,8 +30,10 @@ class ActiveUserRefreshCog(commands.Cog):
         inactivePingChannel = discord.utils.get(
             guild.channels, id=int(inactivePingChannelID))
 
-        ignoredMembers = [member.id for member in [mem for mem in [
-            discord.utils.get(guild.roles, id=roleID).members for roleID in bot.ignoredRoles]]]
+        ignoredMembers = [member.id for member in [
+            mem for mem in [
+                memArr for memArr in [
+                    discord.utils.get(guild.roles, id=roleID).members for roleID in bot.ignoredRoles]]]]
 
         activity_timestamp_ids = [
             (memberIDString, bot.activeUsersCache[f'{memberIDString}']) for memberIDString in bot.activeUsersCache.keys()]
