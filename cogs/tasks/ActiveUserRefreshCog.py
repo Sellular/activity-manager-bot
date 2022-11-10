@@ -15,7 +15,7 @@ class ActiveUserRefreshCog(commands.Cog):
     def cog_unload(self):
         self.activeUserRefresh.cancel()
 
-    @tasks.loop(hours=1)
+    @tasks.loop(minutes=1)
     async def activeUserRefresh(self):
         bot = self.bot
         guildConfig = GeneralUtils.getConfig('guild')
@@ -30,10 +30,9 @@ class ActiveUserRefreshCog(commands.Cog):
         inactivePingChannel = discord.utils.get(
             guild.channels, id=int(inactivePingChannelID))
 
-        ignoredMembers = [member.id for member in [
-            mem for mem in [
-                memArr for memArr in [
-                    discord.utils.get(guild.roles, id=roleID).members for roleID in bot.ignoredRoles]]]]
+        ignoredMembers = [member.id for memberArr in [
+                discord.utils.get(guild.roles, id=roleID).members for roleID in bot.ignoredRoles] 
+            for member in memberArr]
 
         activity_timestamp_ids = [
             (memberIDString, bot.activeUsersCache[f'{memberIDString}']) for memberIDString in bot.activeUsersCache.keys()]
