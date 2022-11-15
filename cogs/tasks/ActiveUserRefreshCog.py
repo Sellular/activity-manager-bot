@@ -15,7 +15,7 @@ class ActiveUserRefreshCog(commands.Cog):
     def cog_unload(self):
         self.activeUserRefresh.cancel()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(hours=1)
     async def activeUserRefresh(self):
         bot = self.bot
         guildConfig = GeneralUtils.getConfig('guild')
