@@ -54,7 +54,7 @@ class ActiveUserRefreshCog(commands.Cog):
                         inactive_role_list = []
                         for role in member.roles:
                             inactive_id_list.append(
-                                (str(member.id), str(role.id), str(now)))
+                                (str(member.id),))
                         LeftMemberRoleDAO.insertMany(inactive_role_list)
 
                         await member.edit(roles=[])
