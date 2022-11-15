@@ -50,6 +50,11 @@ __userActivitySetInactiveSql = """
     WHERE member_id = ?;
 """
 
+__userActivityDeleteSql = """
+    DELETE FROM user_activity
+    WHERE member_id = ?;
+"""
+
 
 def getUserActivityByActive(isActive: bool):
     try:
@@ -138,5 +143,16 @@ def userActivitySetManyInactive(member_id_list: list):
         with dbConnection:
             dbConnection.executemany(
                 __userActivitySetInactiveSql, member_id_list)
+    except Exception as error:
+        raise error
+
+def deleteUserActivityByMember(memberID: str):
+    try:
+        dbConnection = DBUtils.getDBConnection()
+
+        with dbConnection:
+            dbConnection.execute(
+                __userActivityDeleteSql, (memberID,))
+            dbConnection.commit()
     except Exception as error:
         raise error

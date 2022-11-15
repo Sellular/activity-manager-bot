@@ -46,7 +46,10 @@ class ActiveUserRefreshCog(commands.Cog):
             if activity.activeTimestamp < twoWeeksAgo:
                 member = discord.utils.get(
                     guild.members, id=int(activity.memberID))
-                if not member.bot and member.id not in ignoredMembers:
+                
+                if not member:
+                    UserActivityDAO.deleteUserActivityByMember(activity.memberID)
+                elif not member.bot and member.id not in ignoredMembers:
                     try:
                         inactive_role_list = []
                         for role in member.roles:
@@ -61,10 +64,11 @@ class ActiveUserRefreshCog(commands.Cog):
                         await inactivePingMessage.delete()
 
                         inactive_id_list.append((activity.memberID,))
-                        bot.activeUsersCache.pop(activity.memberID)
                     except discord.errors.Forbidden as error:
                         print(f"WARN: User {member.name} id: {member.id} has role higher than bot's highest role. User will not be inactivated.")
                         pass
+
+                bot.activeUsersCache.pop(activity.memberID)
 
         if inactive_id_list:
             UserActivityDAO.userActivitySetManyInactive(inactive_id_list)

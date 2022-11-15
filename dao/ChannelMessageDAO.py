@@ -27,6 +27,7 @@ __channelMessageInsert = """
     );
 """
 
+
 def getChannelMessageByCode(messageCode: str):
     try:
         dbConnection = DBUtils.getDBConnection()
