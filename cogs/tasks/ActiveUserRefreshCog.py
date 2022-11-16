@@ -68,7 +68,10 @@ class ActiveUserRefreshCog(commands.Cog):
                         print(f"WARN: User {member.name} id: {member.id} has role higher than bot's highest role. User will not be inactivated.")
                         pass
 
-                bot.activeUsersCache.pop(activity.memberID)
+                try:
+                    bot.activeUsersCache.pop(activity.memberID)
+                except KeyError as error:
+                    pass
 
         if inactive_id_list:
             UserActivityDAO.userActivitySetManyInactive(inactive_id_list)
