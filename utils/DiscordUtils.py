@@ -42,6 +42,8 @@ async def updateInactiveMessage(bot: commands.Bot):
 
         inactiveChannel = discord.utils.get(
             bot.get_all_channels(), id=int(inactiveChannelId))
+        if not inactiveChannel:
+            raise Exception(f"Inactive channel with given id: {inactiveChannelId} not found.")
 
         inactiveEmbed = discord.Embed(title="You're inactive!", description="It appears that you have not been active within our community recently." +
                                       "\n\n" +
