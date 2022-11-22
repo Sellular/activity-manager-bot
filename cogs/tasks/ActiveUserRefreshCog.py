@@ -24,11 +24,19 @@ class ActiveUserRefreshCog(commands.Cog):
         guildID = guildConfig['guild_id']
 
         guild = discord.utils.get(bot.guilds, id=int(guildID))
+        if not guild:
+            print(f"Guild with given id: {guildID} not found.")
+            return
+
         inactiveRole = discord.utils.get(
             guild.roles, id=int(inactiveRoleID))
+        if not inactiveRole:
+            print(f"Inactive role with given id: {inactiveRoleID} not found.")
 
         inactivePingChannel = discord.utils.get(
             guild.channels, id=int(inactivePingChannelID))
+        if not inactivePingChannel:
+            print(f"Inactive ping channel with given id: {inactivePingChannelID} not found.")
 
         ignoredMembers = [member.id for memberArr in [
                 discord.utils.get(guild.roles, id=roleID).members for roleID in bot.ignoredRoles] 
@@ -54,7 +62,7 @@ class ActiveUserRefreshCog(commands.Cog):
                         inactive_role_list = []
                         for role in member.roles:
                             inactive_id_list.append(
-                                (str(member.id),))
+                                (str(member.id), str(role.id), str(now)))
                         LeftMemberRoleDAO.insertMany(inactive_role_list)
 
                         await member.edit(roles=[])
